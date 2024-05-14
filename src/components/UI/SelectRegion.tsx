@@ -1,9 +1,6 @@
 import clsx from "clsx";
 import { Select } from "antd";
-import {
-  RegionFilterContext,
-  Regions,
-} from "../../context/RegionFilterContext";
+import { FilterContext, Regions } from "../../context/FilterContext";
 import { useContext } from "react";
 
 export type Option = { label: string; value: string };
@@ -17,7 +14,7 @@ const SelectRegion: React.FC<SelectProps> = ({
   data,
   className,
 }: SelectProps) => {
-  const { ...contextFunc } = useContext(RegionFilterContext);
+  const filterContext = useContext(FilterContext);
 
   return (
     <Select
@@ -25,7 +22,7 @@ const SelectRegion: React.FC<SelectProps> = ({
       defaultValue="Filter by Region"
       className={clsx("w-52 h-12", className)}
       onSelect={(selectedValue) => {
-        contextFunc.setFilterKeyword(selectedValue as Regions);
+        filterContext?.setFilterRegionKeyword(selectedValue as Regions);
       }}
     />
   );
