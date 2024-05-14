@@ -1,10 +1,9 @@
 import CountryDetails from "./components/Pages/CountryDetails";
 import Home from "./components/Pages/Home";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import RegionFilterProvider from "./context/RegionFilterContext";
-import SearchFilterProvider from "./context/SearchFilterContext";
 import ThemeContextProvider from "./context/ThemeContext";
 import { ROUTES } from "./routes";
+import FilterContextProvider from "./context/FilterContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,11 +19,9 @@ function App() {
 
   return (
     <ThemeContextProvider>
-      <RegionFilterProvider>
-        <SearchFilterProvider>
-          <RouterProvider router={router} />
-        </SearchFilterProvider>
-      </RegionFilterProvider>
+      <FilterContextProvider>
+        <RouterProvider router={router} />
+      </FilterContextProvider>
     </ThemeContextProvider>
   );
 }

@@ -1,14 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { countriesService } from "../../axios/countries";
 import Country from "../UI/Country";
-import { RegionFilterContext } from "../../context/RegionFilterContext";
-import { SearchFilterContext } from "../../context/SearchFilterContext";
+import { FilterContext } from "../../context/FilterContext";
 
 const DisplayCountries: React.FC = () => {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { ...regionFilterContextFunc } = useContext(RegionFilterContext);
-  const { ...searchFilterContextFunc } = useContext(SearchFilterContext);
+  const filterContext = useContext(FilterContext);
 
   useEffect(() => {
     const countriesResponse = countriesService.getCountries();
@@ -18,20 +16,20 @@ const DisplayCountries: React.FC = () => {
     });
   }, []);
   let renderCountries;
-  //COMMENT: do przerobienia 
+  //COMMENT: do przerobienia
   if (!isLoading) {
-    if (regionFilterContextFunc.filterKeyword) {
-      if (searchFilterContextFunc.filterKeyword) {
+    if (filterContext?.filterRegionKeyword) {
+      if (filterContext.filterSearchQuery) {
         renderCountries = countries.map((countryItem: any) => {
           if (countryItem?.capital?.length > 0) {
             if (
               countryItem.region.toLowerCase() ===
-              regionFilterContextFunc.filterKeyword.toLowerCase()
+              filterContext.filterRegionKeyword.toLowerCase()
             ) {
               if (
                 countryItem?.name?.common
                   .toLowerCase()
-                  .includes(searchFilterContextFunc.filterKeyword)
+                  .includes(filterContext.filterSearchQuery)
               ) {
                 return (
                   <Country
@@ -53,7 +51,7 @@ const DisplayCountries: React.FC = () => {
           if (countryItem?.capital?.length > 0) {
             if (
               countryItem.region.toLowerCase() ===
-              regionFilterContextFunc.filterKeyword.toLowerCase()
+              filterContext.filterRegionKeyword.toLowerCase()
             ) {
               return (
                 <Country
@@ -71,13 +69,13 @@ const DisplayCountries: React.FC = () => {
         });
       }
     } else {
-      if (searchFilterContextFunc.filterKeyword) {
+      if (filterContext?.filterSearchQuery) {
         renderCountries = countries.map((countryItem: any) => {
           if (countryItem?.capital?.length > 0) {
             if (
               countryItem?.name?.common
                 .toLowerCase()
-                .includes(searchFilterContextFunc.filterKeyword)
+                .includes(filterContext.filterSearchQuery)
             ) {
               return (
                 <Country
