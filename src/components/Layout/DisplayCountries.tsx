@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { countriesService } from "../../axios/countries";
 import Country from "../UI/Country";
-import { FilterContext } from "../../context/FilterContext";
+import useFilterContext from "../../hooks/useFilterContext";
 
 const DisplayCountries: React.FC = () => {
   const [countries, setCountries] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const filterContext = useContext(FilterContext);
+  const filterContext = useFilterContext();
 
   useEffect(() => {
     const countriesResponse = countriesService.getCountries();

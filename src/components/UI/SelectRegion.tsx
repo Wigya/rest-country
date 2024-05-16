@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { Select } from "antd";
-import { FilterContext, Regions } from "../../context/FilterContext";
-import { useContext } from "react";
+import { Regions } from "../../context/FilterContext";
+import useFilterContext from "../../hooks/useFilterContext";
 
 export type Option = { label: string; value: string };
 
@@ -14,7 +14,7 @@ const SelectRegion: React.FC<SelectProps> = ({
   data,
   className,
 }: SelectProps) => {
-  const filterContext = useContext(FilterContext);
+  const filterContext = useFilterContext();
 
   return (
     <Select
