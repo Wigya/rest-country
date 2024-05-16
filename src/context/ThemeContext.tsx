@@ -12,9 +12,13 @@ export const ThemeContext = React.createContext<ThemeContextProps | null>(null);
 const ThemeContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  //COMMENT prefers-color-scheme
-  //https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme
-  const [theme, setTheme] = React.useState<Themes>("light");
+  const [theme, setTheme] = React.useState<Themes>(
+    window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light"
+  );
+
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       {children}
