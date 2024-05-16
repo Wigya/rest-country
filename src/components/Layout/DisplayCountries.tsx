@@ -16,99 +16,60 @@ const DisplayCountries: React.FC = () => {
     });
   }, []);
   let renderCountries;
-  //COMMENT: do przerobienia
+
   if (!isLoading) {
-    if (filterContext?.filterRegionKeyword) {
-      if (filterContext.filterSearchQuery) {
-        renderCountries = countries.map((countryItem: any) => {
-          if (countryItem?.capital?.length > 0) {
-            if (
-              countryItem.region.toLowerCase() ===
+    renderCountries = countries.map((countryItem: any) => {
+      if (countryItem?.capital?.length > 0) {
+        const FILTER_BY_REGION = filterContext?.filterRegionKeyword;
+
+        const FILTER_BY_REGION_AND_SEARCH_QUERY =
+          filterContext?.filterRegionKeyword &&
+          filterContext?.filterSearchQuery;
+
+        const FILTER_BY_SEARCH_QUERY = filterContext?.filterSearchQuery;
+
+        const element = (
+          <Country
+            capital={countryItem?.capital[0]}
+            flagImgUrl={countryItem?.flags?.png}
+            name={countryItem?.name?.common}
+            population={countryItem?.population}
+            region={countryItem?.region}
+            className="mr-14 mb-20"
+            key={countryItem?.name?.official}
+          />
+        );
+
+        if (FILTER_BY_REGION_AND_SEARCH_QUERY) {
+          if (
+            countryItem?.name?.common
+              .toLowerCase()
+              .includes(filterContext.filterSearchQuery) &&
+            countryItem.region.toLowerCase() ===
               filterContext.filterRegionKeyword.toLowerCase()
-            ) {
-              if (
-                countryItem?.name?.common
-                  .toLowerCase()
-                  .includes(filterContext.filterSearchQuery)
-              ) {
-                return (
-                  <Country
-                    capital={countryItem?.capital[0]}
-                    flagImgUrl={countryItem?.flags?.png}
-                    name={countryItem?.name?.common}
-                    population={countryItem?.population}
-                    region={countryItem?.region}
-                    className="mr-14 mb-20"
-                    key={countryItem?.name?.official}
-                  />
-                );
-              }
-            }
+          ) {
+            return element;
           }
-        });
-      } else {
-        renderCountries = countries.map((countryItem: any) => {
-          if (countryItem?.capital?.length > 0) {
-            if (
-              countryItem.region.toLowerCase() ===
-              filterContext.filterRegionKeyword.toLowerCase()
-            ) {
-              return (
-                <Country
-                  capital={countryItem?.capital[0]}
-                  flagImgUrl={countryItem?.flags?.png}
-                  name={countryItem?.name?.common}
-                  population={countryItem?.population}
-                  region={countryItem?.region}
-                  className="mr-14 mb-20"
-                  key={countryItem?.name?.official}
-                />
-              );
-            }
+        } else if (FILTER_BY_REGION) {
+          if (
+            countryItem.region.toLowerCase() ===
+            filterContext.filterRegionKeyword.toLowerCase()
+          ) {
+            return element;
           }
-        });
+        } else if (FILTER_BY_SEARCH_QUERY) {
+          if (
+            countryItem?.name?.common
+              .toLowerCase()
+              .includes(filterContext.filterSearchQuery)
+          ) {
+            return element;
+          }
+        } else {
+          return element;
+        }
       }
-    } else {
-      if (filterContext?.filterSearchQuery) {
-        renderCountries = countries.map((countryItem: any) => {
-          if (countryItem?.capital?.length > 0) {
-            if (
-              countryItem?.name?.common
-                .toLowerCase()
-                .includes(filterContext.filterSearchQuery)
-            ) {
-              return (
-                <Country
-                  capital={countryItem?.capital[0]}
-                  flagImgUrl={countryItem?.flags?.png}
-                  name={countryItem?.name?.common}
-                  population={countryItem?.population}
-                  region={countryItem?.region}
-                  className="mr-14 mb-20"
-                  key={countryItem?.name?.official}
-                />
-              );
-            }
-          }
-        });
-      } else {
-        renderCountries = countries.map((countryItem: any) => {
-          if (countryItem?.capital?.length > 0) {
-            return (
-              <Country
-                capital={countryItem?.capital[0]}
-                flagImgUrl={countryItem?.flags?.png}
-                name={countryItem?.name?.common}
-                population={countryItem?.population}
-                region={countryItem?.region}
-                className="mr-14 mb-20"
-                key={countryItem?.name?.official}
-              />
-            );
-          }
-        });
-      }
-    }
+    });
   }
 
   return <div className="flex flex-wrap justify-center">{renderCountries}</div>;
