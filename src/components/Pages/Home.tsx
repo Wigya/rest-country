@@ -3,7 +3,7 @@ import Header from "../Layout/Header";
 import SearchInput from "../UI/SearchInput";
 import DisplayCountries from "../Layout/DisplayCountries";
 import SelectRegion, { Option } from "../UI/SelectRegion";
-import { REGIONS } from "../../context/RegionFilterContext";
+import { REGIONS } from "../../context/FilterContext";
 
 const Home: React.FC = () => {
   return (
